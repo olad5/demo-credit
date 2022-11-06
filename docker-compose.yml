@@ -1,0 +1,39 @@
+version: "3.7"
+services: 
+  mysql:
+    container_name: demo_credit_mysql
+    image: mysql:8.0
+    ports:
+      - "3307:3307"
+    volumes: 
+      - ./mysqldata:/var/lib/mysqldata/data
+    restart: always
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQLDB_ROOT_PASSWORD}
+
+  adminer:
+    container_name: adminer_dev
+    image: adminer:4.8.1
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+      ADMINER_DESIGN: hever
+    ports:
+      - "8080:8080"
+    depends_on:
+      - demo_credit_mysql
+
+  server: 
+    build: .
+    container_name: demo_credit_api
+    depends_on:
+      - demo_credit_mysql
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
+
