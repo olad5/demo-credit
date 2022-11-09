@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+npm run test:unit
 npm run prettier-format 
 npm run lint 
 npm run build
