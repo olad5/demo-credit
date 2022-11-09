@@ -47,6 +47,8 @@ export async function up(knex: Knex): Promise<void> {
       table.enu("status", ["pending", "failed", "success"]).notNullable();
       table.float("prev_credit_wallet_balance").notNullable();
       table.float("new_credit_wallet_balance").notNullable();
+      table.float("prev_debit_wallet_balance").notNullable();
+      table.float("new_debit_wallet_balance").notNullable();
       table.timestamp("created_at").defaultTo(knex.fn.now());
       table.timestamp("updated_at").defaultTo(knex.fn.now());
     });
