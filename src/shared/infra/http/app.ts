@@ -15,6 +15,7 @@ import * as winston from "winston";
 import * as expressWinston from "express-winston";
 import cors from "cors";
 import { serverPort } from "../../../config";
+import { v1Router } from "./api/v1";
 
 const origin = {
   origin: "*"
@@ -46,6 +47,7 @@ const loggerOptions: expressWinston.LoggerOptions = {
 };
 
 app.use(expressWinston.logger(loggerOptions));
+app.use(v1Router);
 app.use(
   expressWinston.errorLogger({
     transports: [new winston.transports.Console()],
