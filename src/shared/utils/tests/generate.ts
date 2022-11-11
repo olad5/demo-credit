@@ -1,4 +1,7 @@
 import { faker } from "@faker-js/faker";
+import { nanoid } from "nanoid";
+import { UserId } from "../../../modules/users/domain/userId";
+import { UniqueEntityID } from "../../domain/UniqueEntityID";
 
 // passwords must have at least these kinds of characters to be valid, so we'll
 // prefex all of the ones we generate with `!0_Oo` to ensure it's valid.
@@ -20,8 +23,13 @@ function signUpForm(overrides: { [key: string]: string } = {}) {
   };
 }
 
+function domainUserId(): UserId {
+  const userId = UserId.create(new UniqueEntityID(nanoid())).getValue();
+  return userId;
+}
 export {
   signUpForm,
+  domainUserId,
   getPassword as password,
   getEmail as email,
   getFirstName as firstname,
