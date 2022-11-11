@@ -1,5 +1,6 @@
 import debug from "debug";
 import { UniqueEntityID } from "../../../shared/domain/UniqueEntityID";
+import { UserModel } from "../../../shared/infra/database/knex/models/UserModel";
 import { Mapper } from "../../../shared/infra/Mapper";
 import { User } from "../domain/user";
 import { UserEmail } from "../domain/userEmail";
@@ -7,13 +8,10 @@ import { UserFirstName } from "../domain/userFirstName";
 import { UserLastName } from "../domain/userLastName";
 import { UserPassword } from "../domain/userPassword";
 
-export type BaseUser = {
-  id: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  password: string;
-};
+export type BaseUser = Pick<
+  UserModel,
+  "id" | "email" | "first_name" | "last_name" | "password"
+>;
 
 const log = debug("app:UserMap");
 

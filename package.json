@@ -34,6 +34,7 @@
     "mssql": "^9.0.1",
     "mysql": "^2.18.1",
     "nanoid": "^3.3.4",
+    "objection": "^3.0.1",
     "ts-jest": "^29.0.3",
     "validator": "^13.7.0"
   },

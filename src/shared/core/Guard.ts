@@ -66,6 +66,18 @@ export class Guard {
 
     return Result.ok<GuardResponse>();
   }
+  public static isLower(
+    num: number,
+    min: number,
+    argumentName: string
+  ): Result<GuardResponse> {
+    const isLowerThan = num >= min;
+    if (!isLowerThan) {
+      return Result.fail<GuardResponse>(`${argumentName} is less than ${min}`);
+    } else {
+      return Result.ok<GuardResponse>();
+    }
+  }
   public static inRange(
     num: number,
     min: number,

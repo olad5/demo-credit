@@ -1,6 +1,6 @@
-import { KnexUserRepo } from "./implementations/knexUserRepo";
-import DBClient from "../../../shared/infra/database/knex/client";
+import { UserModel } from "../../../shared/infra/database/knex/models/UserModel";
+import { ObjectionUserRepo } from "./implementations/ObjectionUserRepo";
 
-const userRepo = new KnexUserRepo(DBClient);
+const userRepo = new ObjectionUserRepo(UserModel);
 
 export { userRepo };
