@@ -28,11 +28,18 @@ services:
     depends_on:
       - demo_credit_mysql
 
+  redis:
+    container_name: demo_credit_redis
+    image: redis:6.2-alpine
+    ports:
+      - "6379:6379"
+
   server: 
     build: .
     container_name: demo_credit_api
     depends_on:
       - demo_credit_mysql
+      - demo_credit_redis
     ports:
       - ${PORT}:${PORT}
     volumes:
