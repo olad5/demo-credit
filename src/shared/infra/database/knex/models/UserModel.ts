@@ -17,7 +17,7 @@ export class UserModel extends BaseModel {
   }
 
   static get tableName(): string {
-    return "users";
+    return "user";
   }
   static get idColumn(): string {
     return "id";
