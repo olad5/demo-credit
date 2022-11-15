@@ -52,6 +52,13 @@ docker compose up --build
 You can visit the app by going to `http://localhost:5300`.
 
 
+## Run unit tests
+
+```bash
+  npm run test:unit
+```
+
+
 ### Built with
 
 #### Backend
