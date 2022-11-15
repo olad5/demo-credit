@@ -12,22 +12,35 @@ function hashPassword(): Promise<string> {
   });
 }
 export async function seed(knex) {
-  const userId = nanoid();
+  const userId1 = nanoid();
+  const userId2 = nanoid();
   await knex("user").insert([
     {
-      id: userId,
+      id: userId1,
       email: "dex@gmail.com",
       password: await hashPassword(),
       first_name: "dexter",
       last_name: "Mackey"
+    },
+    {
+      id: userId2,
+      email: "will@gmail.com",
+      password: await hashPassword(),
+      first_name: "will",
+      last_name: "johnson"
     }
   ]);
 
   await knex("wallet").insert([
     {
       id: nanoid(),
-      user_id: userId,
+      user_id: userId1,
       balance: 0
+    },
+    {
+      id: nanoid(),
+      user_id: userId2,
+      balance: 100
     }
   ]);
 }
