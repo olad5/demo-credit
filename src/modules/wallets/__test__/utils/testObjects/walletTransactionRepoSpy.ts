@@ -102,14 +102,8 @@ export class WalletTransactionRepoSpy implements IWalletTransactionRepo {
       }, 300);
     });
   }
-  /* eslint-disable */
-  async saveWalletFundWithdrawalTransaction(
-    walletTransaction: WalletTransaction
-  ): Promise<void> {}
 
-  /* eslint-enable */
-
-  getWalletTransactionById(
+  getWalletTransactionByTransactionId(
     walletTransactionId: string
   ): Promise<WalletTransaction> {
     const found = this.walletTransactions.find(

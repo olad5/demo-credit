@@ -18,17 +18,17 @@ export class ObjectionWalletTransactionRepo implements IWalletTransactionRepo {
     this.walletTransactionModel = walletTransactionModel;
     this.walletRepo = walletRepo;
   }
-  /* eslint-disable */
-  async getWalletTransactionById(
+
+  async getWalletTransactionByTransactionId(
     walletTransactionId: string
   ): Promise<WalletTransaction> {
-    return;
+    const objectionWalletTransaction = await this.walletTransactionModel
+      .query()
+      .findById(walletTransactionId);
+
+    return WalletTransactionMap.toDomain(objectionWalletTransaction);
   }
 
-  async saveWalletFundWithdrawalTransaction(
-    walletTransaction: WalletTransaction
-  ): Promise<void> {}
-  /* eslint-enable */
   async saveWalletToWalletTransaction(
     debitWallet: Wallet,
     creditWallet: Wallet,

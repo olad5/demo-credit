@@ -2,7 +2,7 @@ import { Wallet } from "../domain/wallet";
 import { WalletTransaction } from "../domain/walletTransaction";
 
 export interface IWalletTransactionRepo {
-  getWalletTransactionById(
+  getWalletTransactionByTransactionId(
     walletTransactionId: string
   ): Promise<WalletTransaction>;
   saveWalletToWalletTransaction(
@@ -14,8 +14,5 @@ export interface IWalletTransactionRepo {
   saveWalletFundingTransaction(
     walletTransaction: WalletTransaction,
     creditWallet?: Wallet
-  ): Promise<void>;
-  saveWalletFundWithdrawalTransaction(
-    walletTransaction: WalletTransaction
   ): Promise<void>;
 }
