@@ -11,6 +11,9 @@ export interface IWalletTransactionRepo {
     walletTransaction: WalletTransaction
   ): Promise<void>;
   getPendingWalletFundingTransactions(): Promise<WalletTransaction[]>;
+  getRecentsWalletTransactionByWalletId(
+    wallet: Wallet
+  ): Promise<WalletTransaction[]>;
   saveWalletFundingTransaction(
     walletTransaction: WalletTransaction,
     creditWallet?: Wallet

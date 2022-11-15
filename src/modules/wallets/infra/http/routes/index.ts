@@ -1,9 +1,11 @@
 import express from "express";
 import { middleware } from "../../../../../shared/infra/http";
+import { getRecentWalletTransactionsController } from "../../../useCases/getRecentWalletTransactions";
 import { getWalletByUserIdController } from "../../../useCases/getWalletByUserId";
 import { getWalletTransactionByTransactionIdController } from "../../../useCases/getWalletTransactionByTransactionId";
 import { initializeUserWalletFundingController } from "../../../useCases/initializeWalletFunding";
 import { transferFundsToUserWalletController } from "../../../useCases/transferFundsToUserWallet";
+
 const walletsRouter = express.Router();
 
 walletsRouter.post(
@@ -25,5 +27,11 @@ walletsRouter.get(
 
 walletsRouter.get("/", middleware.ensureAuthenticated(), (req, res) =>
   getWalletByUserIdController.execute(req, res)
+);
+
+walletsRouter.get(
+  "/transactions",
+  middleware.ensureAuthenticated(),
+  (req, res) => getRecentWalletTransactionsController.execute(req, res)
 );
 export { walletsRouter };

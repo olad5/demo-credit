@@ -29,6 +29,24 @@ export class ObjectionWalletTransactionRepo implements IWalletTransactionRepo {
     return WalletTransactionMap.toDomain(objectionWalletTransaction);
   }
 
+  async getRecentsWalletTransactionByWalletId(
+    wallet: Wallet
+  ): Promise<WalletTransaction[]> {
+    const userWalletId: string = wallet.walletId.id.toString();
+    const timeTwoDaysAgo = new Date(Date.now() - 1000 * 60 * 60 * 24 * 2);
+    const objectionWalletTransactions = await this.walletTransactionModel
+      .query()
+      .where("debit_wallet_id", userWalletId)
+      .orWhere("credit_wallet_id", userWalletId)
+      .where("created_at", ">=", timeTwoDaysAgo.toISOString())
+      .limit(10)
+      .orderBy("created_at", "asc");
+    const domaineWalletTransactions = objectionWalletTransactions.map(
+      (walletTransaction) => WalletTransactionMap.toDomain(walletTransaction)
+    );
+    return domaineWalletTransactions;
+  }
+
   async saveWalletToWalletTransaction(
     debitWallet: Wallet,
     creditWallet: Wallet,
@@ -82,7 +100,6 @@ export class ObjectionWalletTransactionRepo implements IWalletTransactionRepo {
       .query()
       .where("status", "pending")
       .where("created_at", ">=", timeOneHourAgo.toISOString())
-
       .limit(10)
       .orderBy("created_at", "asc");
 

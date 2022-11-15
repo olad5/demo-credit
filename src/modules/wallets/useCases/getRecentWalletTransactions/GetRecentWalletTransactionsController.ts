@@ -1,18 +1,18 @@
-import { GetWalletByUserIdUseCase } from "./GetWalletByUserIdUseCase";
-import { GetWalletByUserIdDTO } from "./GetWalletByUserIdDTO";
-import * as WalletErrors from "../../errors/index";
+import { GetRecentWalletTransactionsUseCase } from "./GetRecentWalletTransactionsUseCase";
+import { GetRecentWalletTransactionsDTO } from "./GetRecentWalletTransactionsDTO";
 import { BaseController } from "../../../../shared/infra/http/models/BaseController";
 import debug from "debug";
 import * as express from "express";
+import * as WalletErrors from "../../errors/index";
 import { DecodedExpressRequest } from "../../../users/infra/http/models/decodedRequest";
-import { WalletMap } from "../../mappers/walletMap";
+import { WalletTransactionMap } from "../../mappers/walletTransactionMap";
 
-const log = debug("app:GetWalletByUserIdController");
+const log = debug("app:GetRecentWalletTransactionsController");
 
-export class GetWalletByUserIdController extends BaseController {
-  private useCase: GetWalletByUserIdUseCase;
+export class GetRecentWalletTransactionsController extends BaseController {
+  private useCase: GetRecentWalletTransactionsUseCase;
 
-  constructor(useCase: GetWalletByUserIdUseCase) {
+  constructor(useCase: GetRecentWalletTransactionsUseCase) {
     super();
     this.useCase = useCase;
   }
@@ -21,9 +21,10 @@ export class GetWalletByUserIdController extends BaseController {
     req: DecodedExpressRequest,
     res: express.Response
   ): Promise<any> {
-    const dto: GetWalletByUserIdDTO = {
+    const dto: GetRecentWalletTransactionsDTO = {
       userId: req.decoded.userId
     };
+
     try {
       const result = await this.useCase.execute(dto);
       if (!result.isRight()) {
@@ -39,9 +40,11 @@ export class GetWalletByUserIdController extends BaseController {
             );
         }
       } else {
-        const wallet = result.value.getValue();
+        const walletTransactions = result.value.getValue();
         return this.ok(res, {
-          wallet: WalletMap.toDTO(wallet)
+          walletTransactions: walletTransactions.map((walletTransaction) =>
+            WalletTransactionMap.toDTO(walletTransaction)
+          )
         });
       }
     } catch (err) {

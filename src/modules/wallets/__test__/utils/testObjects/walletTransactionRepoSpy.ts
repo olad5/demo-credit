@@ -42,6 +42,27 @@ export class WalletTransactionRepoSpy implements IWalletTransactionRepo {
     });
   }
 
+  getRecentsWalletTransactionByWalletId(
+    wallet: Wallet
+  ): Promise<WalletTransaction[]> {
+    const walletId = wallet.walletId;
+    const found = this.walletTransactions.filter(
+      (walletTransaction) =>
+        walletTransaction.debitWalletId.equals(walletId) ||
+        walletTransaction.creditWalletId.equals(walletId)
+    );
+
+    if (!found) {
+      return undefined;
+    }
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(found);
+      }, 300);
+    });
+  }
+
   async saveWalletFundingTransaction(
     walletTransaction: WalletTransaction,
     creditWallet?: Wallet

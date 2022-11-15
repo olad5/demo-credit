@@ -1,5 +1,5 @@
 import { left, Result, right } from "../../../../shared/core/Result";
-import * as GetWalletByUserIdErrors from "./GetWalletByUserIdErrors";
+import * as WalletErrors from "../../errors/index";
 import * as AppError from "../../../../shared/core/AppError";
 import debug from "debug";
 import { UseCase } from "../../../../shared/core/UseCase";
@@ -29,7 +29,7 @@ export class GetWalletByUserIdUseCase
 
       if (!walletFound) {
         return left(
-          new GetWalletByUserIdErrors.UserWalletNotFoundError(userId)
+          new WalletErrors.UserWalletNotFoundError(userId)
         ) as GetWalletByUserIdResponse;
       }
 

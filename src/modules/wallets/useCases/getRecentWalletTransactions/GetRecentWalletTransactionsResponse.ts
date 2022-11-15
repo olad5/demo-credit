@@ -1,9 +1,9 @@
 import * as AppError from "../../../../shared/core/AppError";
 import { Either, Result } from "../../../../shared/core/Result";
-import { Wallet } from "../../domain/wallet";
+import { WalletTransaction } from "../../domain/walletTransaction";
 import * as WalletErrors from "../../errors/index";
 
-export type GetWalletByUserIdResponse = Either<
+export type GetRecentWalletTransactionsResponse = Either<
   WalletErrors.UserWalletNotFoundError | AppError.UnexpectedError | Result<any>,
-  Result<Wallet>
+  Result<WalletTransaction[]>
 >;
