@@ -205,14 +205,6 @@ export class TransferFundsToUserWalletUseCase
       const recipientWallet = await this.walletRepo.getWalletByUserId(
         recipientUserId
       );
-      const isSenderSameAsRecipient = senderWallet.walletId.equals(
-        recipientWallet.walletId
-      );
-      if (isSenderSameAsRecipient) {
-        return left(
-          new TransferFundsToUserWalletErrors.CannotSendMoneyToSelfError()
-        ) as TransferFundsToUserWalletResponse;
-      }
       const doesSenderWalletExists = !!senderWallet;
       const doesReceipentWalletExists = !!recipientWallet;
 
@@ -229,6 +221,16 @@ export class TransferFundsToUserWalletUseCase
           new TransferFundsToUserWalletErrors.UserWalletNotFoundError(
             recipientUserId
           )
+        ) as TransferFundsToUserWalletResponse;
+      }
+
+      const isSenderSameAsRecipient = senderWallet.walletId.equals(
+        recipientWallet.walletId
+      );
+
+      if (isSenderSameAsRecipient) {
+        return left(
+          new TransferFundsToUserWalletErrors.CannotSendMoneyToSelfError()
         ) as TransferFundsToUserWalletResponse;
       }
 
