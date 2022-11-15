@@ -1,5 +1,6 @@
 import express from "express";
 import { middleware } from "../../../../../shared/infra/http";
+import { getWalletByUserIdController } from "../../../useCases/getWalletByUserId";
 import { getWalletTransactionByTransactionIdController } from "../../../useCases/getWalletTransactionByTransactionId";
 import { initializeUserWalletFundingController } from "../../../useCases/initializeWalletFunding";
 import { transferFundsToUserWalletController } from "../../../useCases/transferFundsToUserWallet";
@@ -20,5 +21,9 @@ walletsRouter.get(
   "/transaction/:transactionId",
   middleware.ensureAuthenticated(),
   (req, res) => getWalletTransactionByTransactionIdController.execute(req, res)
+);
+
+walletsRouter.get("/", middleware.ensureAuthenticated(), (req, res) =>
+  getWalletByUserIdController.execute(req, res)
 );
 export { walletsRouter };

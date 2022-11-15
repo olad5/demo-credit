@@ -5,12 +5,21 @@ import { Mapper } from "../../../shared/infra/Mapper";
 import { UserId } from "../../users/domain/userId";
 import { Wallet } from "../domain/wallet";
 import { WalletBalance } from "../domain/walletBalance";
+import { WalletDTO } from "../dtos/walletDTO";
 
 export type WalletType = Pick<WalletModel, "id" | "balance" | "user_id">;
 
 const log = debug("app:WalletMap");
 
 export class WalletMap implements Mapper<Wallet> {
+  public static toDTO(wallet: Wallet): WalletDTO {
+    return {
+      walletId: wallet.walletId.id.toString(),
+      balance: wallet.walletBalance.value,
+      userId: wallet.userId.id.toString()
+    };
+  }
+
   public static toDomain(knexModel: WalletType): Wallet | null {
     const walletOrError = Wallet.create(
       {
