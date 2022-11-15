@@ -1,16 +1,17 @@
+import { DBTransaction } from "../../../../../shared/infra/database/knex";
 import { Wallet } from "../../../domain/wallet";
 import { IWalletRepo } from "../../../repos/walletRepo";
 
 export class WalletRepoSpy implements IWalletRepo {
   private wallets: Wallet[];
   private walletUnderTest: Wallet;
-  private timesWriteCalled: number;
-  private timesUpdateCalled: number;
+  private timesSaveCalled: number;
+  private timesSaveBulkCalled: number;
 
   constructor(wallets: Wallet[]) {
     this.wallets = wallets;
-    this.timesWriteCalled = 0;
-    this.timesUpdateCalled = 0;
+    this.timesSaveCalled = 0;
+    this.timesSaveBulkCalled = 0;
   }
 
   exists(wallet: Wallet): Promise<boolean> {
@@ -41,27 +42,56 @@ export class WalletRepoSpy implements IWalletRepo {
     });
   }
 
-  getTimesWriteCalled(): number {
-    return this.timesWriteCalled;
+  getWalletByWalletId(walletId: string): Promise<Wallet> {
+    const found = this.wallets.find(
+      (wallet) => wallet.walletId.id.toString() === walletId
+    );
+
+    if (!found) {
+      return undefined;
+    }
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        this.walletUnderTest = found;
+        resolve(found);
+      }, 300);
+    });
   }
 
-  getTimesUpdateCalled(): number {
-    return this.timesUpdateCalled;
+  getTimesSaveCalled(): number {
+    return this.timesSaveCalled;
+  }
+
+  getTimesSaveBulkCalled(): number {
+    return this.timesSaveBulkCalled;
   }
 
   getWalletUndertest(): Wallet {
     return this.walletUnderTest;
   }
 
-  async update(wallet: Wallet): Promise<void> {
-    this.wallets.push(wallet);
-    this.timesUpdateCalled++;
-    this.walletUnderTest = wallet;
+  async saveBulk(
+    creditWallet: Wallet,
+    debitWallet: Wallet,
+    trx: DBTransaction
+  ): Promise<void> {
+    const updatedWallets: Wallet[] = [debitWallet, creditWallet];
+
+    this.wallets = this.wallets.filter((wallet) => {
+      !updatedWallets.includes(wallet);
+    });
+    this.wallets.push(...updatedWallets);
+    this.timesSaveBulkCalled++;
+    this.walletUnderTest = undefined;
   }
 
   async save(wallet: Wallet): Promise<void> {
+    this.wallets = this.wallets.filter((currentWallet) => {
+      !currentWallet.equals(wallet);
+    });
     this.wallets.push(wallet);
-    this.timesWriteCalled++;
+    this.timesSaveCalled++;
     this.walletUnderTest = wallet;
   }
 }

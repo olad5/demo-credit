@@ -5,7 +5,8 @@ import { ObjectionWalletTransactionRepo } from "./implementations/ObjectionWalle
 
 const walletRepo = new ObjectionWalletRepo(WalletModel);
 const walletTransactionRepo = new ObjectionWalletTransactionRepo(
-  WalletTransactionModel
+  WalletTransactionModel,
+  walletRepo
 );
 
 export { walletRepo, walletTransactionRepo };

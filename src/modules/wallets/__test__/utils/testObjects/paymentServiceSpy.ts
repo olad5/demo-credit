@@ -9,12 +9,16 @@ import {
 export class PaymentServiceSpy implements IPaymentService {
   serviceName: string;
   private timesInitializePaymentCalled: number;
+  private timesVerifyPaymentCalled: number;
   private currentResponseStatus: boolean;
+  private currentVerifyPaymentStatusMessage: "success" | "abandoned" | "failed";
 
   constructor() {
     this.serviceName = "paymentServiceSpy";
     this.timesInitializePaymentCalled = 0;
+    this.timesVerifyPaymentCalled = 0;
     this.currentResponseStatus = true;
+    this.currentVerifyPaymentStatusMessage = "success";
   }
 
   async initializePayment(
@@ -44,16 +48,31 @@ export class PaymentServiceSpy implements IPaymentService {
     return this.timesInitializePaymentCalled;
   }
 
+  getTimesVerifyPaymentCalled(): number {
+    return this.timesVerifyPaymentCalled;
+  }
+
+  changeVerifyPaymentDataStatus(
+    status: "success" | "abandoned" | "failed"
+  ): void {
+    this.currentVerifyPaymentStatusMessage = status;
+  }
+
+  getCurrentVerifyPaymentDataStatus() {
+    return this.currentVerifyPaymentStatusMessage;
+  }
+
   async verifyPayment(reference: string): Promise<VerifyResponse> {
     const response: VerifyResponse = {
       status: true,
       message: this.currentResponseStatus ? "verified" : "failed to verify",
       data: {
-        amount: 10,
-        status: "success",
+        amount: Math.floor(Math.random() * (100 - 30 + 1)) + 30,
+        status: this.currentVerifyPaymentStatusMessage,
         reference
       }
     };
+    this.timesVerifyPaymentCalled++;
 
     return response;
   }

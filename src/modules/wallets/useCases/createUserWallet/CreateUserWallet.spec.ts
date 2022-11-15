@@ -33,7 +33,7 @@ defineFeature(feature, (test) => {
 
     then("the user wallet should be saved successfully", () => {
       expect(result.isRight()).toEqual(true);
-      expect(walletRepoSpy.getTimesWriteCalled()).toEqual(1);
+      expect(walletRepoSpy.getTimesSaveCalled()).toEqual(1);
       expect(walletRepoSpy.getWalletUndertest().userId).toEqual(userId);
     });
   });
@@ -57,7 +57,7 @@ defineFeature(feature, (test) => {
       "the user wallet should be saved successfully with a balance of 0",
       () => {
         expect(result.isRight()).toEqual(true);
-        expect(walletRepoSpy.getTimesWriteCalled()).toEqual(1);
+        expect(walletRepoSpy.getTimesSaveCalled()).toEqual(1);
         expect(walletRepoSpy.getWalletUndertest().walletBalance.value).toEqual(
           0
         );
@@ -84,7 +84,7 @@ defineFeature(feature, (test) => {
       const errorMessage = `The user with userId ${userId.id.toString()} already has a wallet`;
       expect(result.isLeft()).toEqual(true);
       expect(result.value.getErrorValue().message).toEqual(errorMessage);
-      expect(walletRepoSpy.getTimesWriteCalled()).toEqual(1);
+      expect(walletRepoSpy.getTimesSaveCalled()).toEqual(1);
     });
   });
 });

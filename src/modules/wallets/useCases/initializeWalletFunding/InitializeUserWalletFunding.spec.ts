@@ -24,7 +24,7 @@ defineFeature(feature, (test) => {
   beforeEach(() => {
     walletRepoSpy = new WalletRepoSpy([]);
     userWallet = undefined;
-    walletTransactionRepoSpy = new WalletTransactionRepoSpy([]);
+    walletTransactionRepoSpy = new WalletTransactionRepoSpy([], walletRepoSpy);
     paymentServiceSpy = new PaymentServiceSpy();
     initializeUserWalletFunding = new InitializeUserWalletFundingUseCase(
       walletTransactionRepoSpy,

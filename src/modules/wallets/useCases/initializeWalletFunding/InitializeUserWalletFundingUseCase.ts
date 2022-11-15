@@ -95,7 +95,7 @@ export class InitializeUserWalletFundingUseCase
       const prevCreditWalletBalanceOrError = CreditWalletBalance.create({
         amount: existingUserWallet.walletBalance.value
       });
-      const newCreditWalletBalanceOrError = DebitWalletBalance.create({
+      const newCreditWalletBalanceOrError = CreditWalletBalance.create({
         amount: existingUserWallet.walletBalance.value + amountToFundWalletWith
       });
       const walletTransactionNarrationOrError =

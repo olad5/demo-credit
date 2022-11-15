@@ -1,8 +1,14 @@
+import { DBTransaction } from "../../../shared/infra/database/knex";
 import { Wallet } from "../domain/wallet";
 
 export interface IWalletRepo {
   exists(wallet: Wallet): Promise<boolean>;
-  update(wallet: Wallet): Promise<void>;
+  saveBulk(
+    creditWallet: Wallet,
+    debitWallet: Wallet,
+    trx: DBTransaction
+  ): Promise<void>;
   getWalletByUserId(userId: string): Promise<Wallet>;
-  save(wallet: Wallet): Promise<void>;
+  getWalletByWalletId(walletId: string): Promise<Wallet>;
+  save(wallet: Wallet, trx?: DBTransaction): Promise<void>;
 }
