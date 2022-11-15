@@ -18,3 +18,11 @@ export class UnexpectedError extends Result<UseCaseError> {
     return new UnexpectedError(err);
   }
 }
+
+export class NullOrUndefinedFieldsError extends Result<UseCaseError> {
+  constructor(error: string) {
+    super(false, {
+      message: error
+    } as UseCaseError);
+  }
+}
